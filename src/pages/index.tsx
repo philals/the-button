@@ -35,25 +35,31 @@ const Home: NextPage = () => {
         ></input>
         <DefaultQueryCell
           query={lastClickedQuery}
-          success={({ data }) => (
-            <>
-              <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
-                Last time this button was clicked by{" "}
-                <span className="text-purple-300">{data?.name}</span>
-              </h1>
-            </>
-          )}
+          success={({ data }) => {
+            return (
+              <>
+                <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
+                  The last person to click was{" "}
+                  <span className="text-purple-300">{data?.name}</span>
+                  {" on "}
+                  <span className="text-blue-300">
+                    {data?.createdAt.toLocaleString()}
+                  </span>
+                </h1>
+                <div className="flex space-x-2 justify-center">
+                  <button
+                    onClick={() => onClickOfButton.mutate({ name: input })}
+                    type="button"
+                    className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+                  >
+                    Button
+                  </button>
+                </div>
+              </>
+            );
+          }}
           empty={() => <p>Err.. there is meant to be data here</p>}
         />
-        <div className="flex space-x-2 justify-center">
-          <button
-            onClick={() => onClickOfButton.mutate({ name: input })}
-            type="button"
-            className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
-          >
-            Button
-          </button>
-        </div>
       </main>
     </>
   );

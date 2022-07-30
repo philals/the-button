@@ -27,6 +27,7 @@ export const buttonRouter = createRouter()
       const result = await prisma.buttonClick.findMany({
         select: {
           name: true,
+          createdAt: true,
         },
         orderBy: {
           createdAt: "desc",
