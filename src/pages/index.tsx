@@ -13,6 +13,8 @@ type TechnologyCardProps = {
 const Home: NextPage = () => {
   const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const postsQuery = trpc.useQuery(["post.all"]);
+  const lastClicked = trpc.useQuery(["button.lastClicked"]);
+  console.log("🚀 ~ file: index.tsx ~ line 17 ~ lastClicked", lastClicked);
 
   const onClickOfButton = trpc.useMutation(["button.clicked"]);
 
@@ -26,34 +28,19 @@ const Home: NextPage = () => {
 
       <main className="container mx-auto flex flex-col items-center justify-center h-screen p-4">
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
-          Create <span className="text-purple-300">T3</span> App
+          Last time this button was clicked by{" "}
+          <span className="text-purple-300">{lastClicked.data?.name}</span>
         </h1>
-        <p className="text-2xl text-gray-700">This stack uses:</p>
-        <div className="grid gap-3 pt-3 mt-3 text-center md:grid-cols-2 lg:w-2/3">
-          <TechnologyCard
-            name="NextJS"
-            description="The React framework for production"
-            documentation="https://nextjs.org/"
-          />
-          <TechnologyCard
-            name="TypeScript"
-            description="Strongly typed programming language that builds on JavaScript, giving you better tooling at any scale"
-            documentation="https://www.typescriptlang.org/"
-          />
-          <TechnologyCard
-            name="TailwindCSS"
-            description="Rapidly build modern websites without ever leaving your HTML"
-            documentation="https://tailwindcss.com/"
-          />
-          <TechnologyCard
-            name="tRPC"
-            description="End-to-end typesafe APIs made easy"
-            documentation="https://trpc.io/"
-          />
+
+        <div className="flex space-x-2 justify-center">
+          <button
+            onClick={() => onClickOfButton.mutate({ name: "phil2" })}
+            type="button"
+            className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
+          >
+            Button
+          </button>
         </div>
-        <button onClick={() => onClickOfButton.mutate({ name: "phil" })}>
-          Red Button
-        </button>
         <div className="pt-6 text-2xl text-blue-500 flex justify-center items-center w-full">
           {hello.data ? <p>{hello.data.greeting}</p> : <p>Loading..</p>}
         </div>
