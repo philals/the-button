@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
+import { DefaultQueryCell } from "../utils/DefaultQueryCell";
 import { trpc } from "../utils/trpc";
 
 type TechnologyCardProps = {
@@ -10,6 +12,7 @@ type TechnologyCardProps = {
 
 const Home: NextPage = () => {
   const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
+  const postsQuery = trpc.useQuery(["post.all"]);
 
   return (
     <>
@@ -50,6 +53,22 @@ const Home: NextPage = () => {
           {hello.data ? <p>{hello.data.greeting}</p> : <p>Loading..</p>}
         </div>
       </main>
+      <DefaultQueryCell
+        query={postsQuery}
+        success={({ data }) => (
+          <>
+            {data.map((item) => (
+              <article key={item.id}>
+                <Link href={`/post/${item.id}`}>
+                  <h3>{item.title}</h3>
+                </Link>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </>
+        )}
+        empty={() => <p>WE NEED POSTS!!!</p>}
+      />
     </>
   );
 };
