@@ -65,3 +65,9 @@ model Post {
     body      String
     createdAt DateTime @default(now())
 }
+
+model ButtonClick {
+    id        String   @id @default(uuid())
+    name      String
+    createdAt DateTime @default(now())
+}
