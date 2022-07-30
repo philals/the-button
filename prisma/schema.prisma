@@ -59,13 +59,6 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-model Post {
-    id        String   @id @default(uuid())
-    title     String
-    body      String
-    createdAt DateTime @default(now())
-}
-
 model ButtonClick {
     id        String   @id @default(uuid())
     name      String
