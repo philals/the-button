@@ -28,11 +28,37 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex flex-col items-center justify-center h-screen p-4">
+        <label
+          htmlFor="exampleFormControlInput1"
+          className="form-label inline-block mb-2 text-gray-700"
+        >
+          Example label
+        </label>
         <input
-          type={"text"}
+          type="text"
+          className="
+        form-control
+        block
+        w-full
+        px-3
+        py-1.5
+        text-base
+        font-normal
+        text-gray-700
+        bg-white bg-clip-padding
+        border border-solid border-gray-300
+        rounded
+        transition
+        ease-in-out
+        m-0
+        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+      "
+          id="exampleFormControlInput1"
+          placeholder="Example label"
           onChange={(e) => setInput(e.target.value)}
           value={input}
-        ></input>
+        />
+
         <DefaultQueryCell
           query={lastClickedQuery}
           success={({ data }) => {
