@@ -1,5 +1,3 @@
-// src/server/router/post.ts
-
 import { prisma } from "../db/client";
 import { z } from "zod";
 import { createRouter } from "./context";
