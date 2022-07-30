@@ -13,37 +13,16 @@ const defaultPostSelect = Prisma.validator<Prisma.PostSelect>()({
   createdAt: true,
 });
 
-export const buttonRouter = createRouter()
-  .mutation("clicked", {
-    input: z.object({ name: z.string() }),
-    async resolve({ input }) {
-      const { name } = input;
-      console.log("🚀 ~ file: button.ts ~ line 21 ~ resolve ~ name", name);
-
-      return "post";
-    },
-  })
-  .query("all", {
-    async resolve() {
-      return prisma.post.findMany({
-        select: defaultPostSelect,
-      });
-    },
-  })
-  .query("byId", {
-    input: z.object({ id: z.string() }),
-    async resolve({ input }) {
-      const { id } = input;
-      const post = await prisma.post.findUnique({
-        where: { id },
-        select: defaultPostSelect,
-      });
-      if (!post) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: `No post with id '${id}'`,
-        });
-      }
-      return post;
-    },
-  });
+export const buttonRouter = createRouter().mutation("clicked", {
+  input: z.object({ name: z.string() }),
+  async resolve({ input }) {
+    const { name } = input;
+    console.log("🚀 ~ file: button.ts ~ line 21 ~ resolve ~ name", name);
+    console.log(
+      "🚀 ~ file: button.ts ~ line 22 ~ resolve ~ prisma.buttonClick",
+      prisma.buttonClick
+    );
+    await prisma.buttonClick.create({ data: { name } });
+    return "post";
+  },
+});
