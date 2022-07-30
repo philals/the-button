@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 import { DefaultQueryCell } from "../utils/DefaultQueryCell";
 import { trpc } from "../utils/trpc";
 
@@ -16,6 +17,8 @@ const Home: NextPage = () => {
   const lastClicked = trpc.useQuery(["button.lastClicked"]);
   console.log("🚀 ~ file: index.tsx ~ line 17 ~ lastClicked", lastClicked);
 
+  const [input, setInput] = useState("");
+
   const onClickOfButton = trpc.useMutation(["button.clicked"]);
 
   return (
@@ -27,6 +30,11 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex flex-col items-center justify-center h-screen p-4">
+        <input
+          type={"text"}
+          onChange={(e) => setInput(e.target.value)}
+          value={input}
+        ></input>
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
           Last time this button was clicked by{" "}
           <span className="text-purple-300">{lastClicked.data?.name}</span>
@@ -34,7 +42,7 @@ const Home: NextPage = () => {
 
         <div className="flex space-x-2 justify-center">
           <button
-            onClick={() => onClickOfButton.mutate({ name: "phil2" })}
+            onClick={() => onClickOfButton.mutate({ name: input })}
             type="button"
             className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
           >
