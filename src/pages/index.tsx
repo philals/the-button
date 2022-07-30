@@ -1,23 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { useState } from "react";
 import { DefaultQueryCell } from "../utils/DefaultQueryCell";
 import { trpc } from "../utils/trpc";
 
-type TechnologyCardProps = {
-  name: string;
-  description: string;
-  documentation: string;
-};
-
 const Home: NextPage = () => {
   const lastClickedQuery = trpc.useQuery(["button.lastClicked"]);
-  console.log("🚀 ~ file: index.tsx ~ line 17 ~ lastClicked", lastClickedQuery);
-
   const [input, setInput] = useState("");
-
-  const onClickOfButton = trpc.useMutation(["button.clicked"]);
+  const buttonClickedMutation = trpc.useMutation(["button.clicked"]);
 
   return (
     <>
@@ -74,7 +64,9 @@ const Home: NextPage = () => {
                 </h1>
                 <div className="flex space-x-2 justify-center">
                   <button
-                    onClick={() => onClickOfButton.mutate({ name: input })}
+                    onClick={() =>
+                      buttonClickedMutation.mutate({ name: input })
+                    }
                     type="button"
                     className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
                   >
