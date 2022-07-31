@@ -42,7 +42,7 @@ const Home: NextPage = () => {
           success={({ data }) => {
             return (
               <>
-                <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
+                <p className="inline text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
                   The last person to click{" "}
                   <Button disabled={isLoading} onClick={signInOrMutate}>
                     this Button
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
                   <span className="text-blue-300">
                     {data?.createdAt.toLocaleString()}
                   </span>
-                </h1>
+                </p>
               </>
             );
           }}
