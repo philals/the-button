@@ -65,9 +65,7 @@ const Home: NextPage = () => {
           empty={() => (
             <>
               <p>Err.. there is meant to be data here</p>{" "}
-              <Button onClick={() => buttonClickedMutation.mutate()}>
-                Button
-              </Button>
+              <Button onClick={signInOrMutate}>Button</Button>
             </>
           )}
         />
