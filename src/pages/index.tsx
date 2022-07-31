@@ -8,7 +8,11 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   const lastClickedQuery = trpc.useQuery(["button.lastClicked"]);
-  const buttonClickedMutation = trpc.useMutation(["button.clicked"]);
+  const buttonClickedMutation = trpc.useMutation(["button.clicked"], {
+    onSuccess: () => {
+      lastClickedQuery.refetch();
+    },
+  });
 
   return (
     <>
