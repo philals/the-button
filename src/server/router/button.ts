@@ -1,28 +1,31 @@
 import { prisma } from "../db/client";
-import { z } from "zod";
 import { createRouter } from "./context";
+import { createProtectedRouter } from "./protected-router";
 
-export const buttonRouter = createRouter()
-  .mutation("clicked", {
-    input: z.object({ name: z.string() }),
-    async resolve({ input }) {
-      const { name } = input;
-      await prisma.buttonClick.create({ data: { name } });
+export const openButtonRouter = createRouter().query("lastClicked", {
+  async resolve() {
+    const result = await prisma.buttonClick.findMany({
+      select: {
+        id: true,
+        createdAt: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: 1,
+    });
+    return result[0];
+  },
+});
+
+export const protectedButtonRouter = createProtectedRouter().mutation(
+  "clicked",
+  {
+    async resolve({ ctx }) {
+      await prisma.buttonClick.create({
+        data: { userId: ctx.session?.user?.id! },
+      });
       return "post";
     },
-  })
-  .query("lastClicked", {
-    async resolve() {
-      const result = await prisma.buttonClick.findMany({
-        select: {
-          name: true,
-          createdAt: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-        take: 1,
-      });
-      return result[0];
-    },
-  });
+  }
+);

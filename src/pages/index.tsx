@@ -2,17 +2,16 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
+import Button from "../components/Button";
 import SignIn from "../components/SignIn";
 import { DefaultQueryCell } from "../utils/DefaultQueryCell";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   const lastClickedQuery = trpc.useQuery(["button.lastClicked"]);
-  const restrictedQuery = trpc.useQuery(["question.getSecretMessage"]);
-  console.log(
-    "🚀 ~ file: index.tsx ~ line 10 ~ restrictedQuery",
-    restrictedQuery
-  );
+  const session = trpc.useQuery(["question.getSession"]);
+  console.log("🚀 ~ file: index.tsx ~ line 12 ~ session", session.data);
+
   const [input, setInput] = useState("");
   const buttonClickedMutation = trpc.useMutation(["button.clicked"]);
 
@@ -64,27 +63,28 @@ const Home: NextPage = () => {
               <>
                 <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
                   The last person to click was{" "}
-                  <span className="text-purple-300">{data?.name}</span>
+                  <span className="text-purple-300">{data?.id}</span>
                   {" on "}
                   <span className="text-blue-300">
                     {data?.createdAt.toLocaleString()}
                   </span>
                 </h1>
                 <div className="flex space-x-2 justify-center">
-                  <button
-                    onClick={() =>
-                      buttonClickedMutation.mutate({ name: input })
-                    }
-                    type="button"
-                    className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"
-                  >
+                  <Button onClick={() => buttonClickedMutation.mutate()}>
                     Button
-                  </button>
+                  </Button>
                 </div>
               </>
             );
           }}
-          empty={() => <p>Err.. there is meant to be data here</p>}
+          empty={() => (
+            <>
+              <p>Err.. there is meant to be data here</p>{" "}
+              <Button onClick={() => buttonClickedMutation.mutate()}>
+                Button
+              </Button>
+            </>
+          )}
         />
       </main>
     </>

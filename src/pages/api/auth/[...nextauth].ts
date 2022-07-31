@@ -6,7 +6,6 @@ import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "../../../server/db/client";
 import { env } from "../../../env/server.mjs";
-console.log("🚀 ~ file: [...nextauth].ts ~ line 9 ~ env", env);
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session

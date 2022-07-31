@@ -9,6 +9,10 @@ export const protectedExampleRouter = createProtectedRouter()
   })
   .query("getSecretMessage", {
     resolve({ ctx }) {
+      console.log(
+        "🚀🚀🚀🚀🚀🚀🚀 ~ file: protected-example-router.ts ~ line 12 ~ resolve ~ ctx",
+        ctx.session
+      );
       return "He who asks a question is a fool for five minutes; he who does not ask a question remains a fool forever.";
     },
   });
