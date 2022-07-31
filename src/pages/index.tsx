@@ -1,7 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
 import Button from "../components/Button";
 import SignIn from "../components/SignIn";
 import { DefaultQueryCell } from "../utils/DefaultQueryCell";
@@ -9,10 +7,6 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   const lastClickedQuery = trpc.useQuery(["button.lastClicked"]);
-  const session = trpc.useQuery(["question.getSession"]);
-  console.log("🚀 ~ file: index.tsx ~ line 12 ~ session", session.data);
-
-  const [input, setInput] = useState("");
   const buttonClickedMutation = trpc.useMutation(["button.clicked"]);
 
   return (
@@ -23,39 +17,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SignIn />
-      <Link href="/api/auth/login">Login</Link>
       <main className="container mx-auto flex flex-col items-center justify-center h-screen p-4">
-        <label
-          htmlFor="exampleFormControlInput1"
-          className="form-label inline-block mb-2 text-gray-700"
-        >
-          Example label
-        </label>
-        <input
-          type="text"
-          className="
-        form-control
-        block
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-white bg-clip-padding
-        border border-solid border-gray-300
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      "
-          id="exampleFormControlInput1"
-          placeholder="Example label"
-          onChange={(e) => setInput(e.target.value)}
-          value={input}
-        />
-
         <DefaultQueryCell
           query={lastClickedQuery}
           success={({ data }) => {
