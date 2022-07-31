@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { signIn, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import Button from "../components/Button";
@@ -13,6 +14,19 @@ const Home: NextPage = () => {
       lastClickedQuery.refetch();
     },
   });
+
+  const { data: session } = useSession();
+
+  function signInOrMutate() {
+    if (!session?.user) {
+      signIn();
+    } else {
+      buttonClickedMutation.mutate();
+    }
+  }
+
+  const isLoading =
+    lastClickedQuery.isRefetching || buttonClickedMutation.isLoading;
 
   return (
     <>
@@ -30,7 +44,7 @@ const Home: NextPage = () => {
               <>
                 <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
                   The last person to click{" "}
-                  <Button onClick={() => buttonClickedMutation.mutate()}>
+                  <Button disabled={isLoading} onClick={signInOrMutate}>
                     this Button
                   </Button>{" "}
                   was{" "}
