@@ -7,6 +7,7 @@ export const openButtonRouter = createRouter().query("lastClicked", {
     const result = await prisma.buttonClick.findMany({
       select: {
         id: true,
+        user: true,
         createdAt: true,
       },
       orderBy: {
@@ -14,7 +15,10 @@ export const openButtonRouter = createRouter().query("lastClicked", {
       },
       take: 1,
     });
-    return result[0];
+    return {
+      createdAt: result[0]!.createdAt,
+      imageUrl: result[0]!.user.image,
+    };
   },
 });
 
